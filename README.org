@@ -15,7 +15,7 @@ load this in your emacs config:
 
 * Usage
 ** M-x eyt-get-path
-This function will help you to position yourself while surfing in a yaml file.
+To position yourself while surfing in a yaml file.
 
 The message you will get is like:
 ~spec => template => spec => volumes[18] => emptyDir => medium~
@@ -24,12 +24,28 @@ And you will get format like this in your kill-ring:
 ~spec.template.spec.volumes[18].emptyDir.sizeLimit~
 
 ** M-x eyt-get-value
-this function will help you to get the value inside executable blocks like ~{{ .Values.global.name }}~
+To get the value inside executable blocks like ~{{ .Values.global.name }}~
 
 the values file will from:
 - for ~_test.yaml~ files (which is the convention of [[https://github.com/lrills/helm-unittest][helm-unittest]]), the values will come from the defined file in the header of block
 - for normal yaml files in a helm chart, the file will be ~<CHART_NAME>/values.yaml~
 
+** M-x eyt-convert-to-ut
+Convert yaml syntax like ~key:value~ pair to a [[https://github.com/lrills/helm-unittest][helm-unittest]] case.
+
+for example, the selected pair:
+#+BEGIN_SRC yaml
+data:
+  sizeLimit: {{ .Values.global.sizeLimit }}
+#+END_SRC
+
+#+begin_src yaml
+- equal:
+    path: data.sizeLimit
+    value: {{ .Values.global.sizeLimit}}
+#+end_src
+
+and [[M-x eyt-get-value]] can be used here to determine the value quickly.
 
 * Liscence
 [[https://github.com/Diphia/tmux-fcitx-status/blob/master/LICENSE][GPLv3]]
