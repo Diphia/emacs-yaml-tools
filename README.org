@@ -1,0 +1,35 @@
+#+TITLE: Emacs-Yaml-Tools
+
+Several useful tools for editing yaml (and helm chart) files with Emacs.
+
+* Install
+Clone this repository and move to your ~.emacs.d~ directory:
+#+BEGIN_SRC bash
+$ git clone https://github.com/Diphia/ <YOUR_DOT_EMACS_DOT_D>
+#+END_SRC
+
+load this in your emacs config:
+#+begin_src emacs-lisp
+(load-file "emacs-yaml-tools/yaml-tools-main.el" )
+#+end_src
+
+* Usage
+** M-x eyt-get-path
+This function will help you to positioning yourself while surfing in a yaml file.
+
+The message you will get is like:
+~spec => template => spec => volumes[18] => emptyDir => medium~
+
+And you will get format like this in your kill-ring:
+~spec.template.spec.volumes[18].emptyDir.sizeLimit~
+
+** M-x eyt-get-value
+this function will help you to get the value inside executable blocks like ~{{ .Values.global.name }}~
+
+the values file will from:
+- for ~_test.yaml~ files (which is the convention of [[https://github.com/lrills/helm-unittest][helm-unittest]]), the values will come from the defined file in the header of block
+- for normal yaml files in a helm chart, the file will be ~<CHART_NAME>/values.yaml~
+
+
+* Liscence
+[[https://github.com/Diphia/tmux-fcitx-status/blob/master/LICENSE][GPLv3]]
