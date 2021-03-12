@@ -39,6 +39,7 @@ data:
   sizeLimit: {{ .Values.global.sizeLimit }}
 #+END_SRC
 
+and the converted case:
 #+begin_src yaml
 - equal:
     path: data.sizeLimit
