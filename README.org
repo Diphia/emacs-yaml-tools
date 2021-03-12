@@ -15,7 +15,7 @@ load this in your emacs config:
 
 * Usage
 ** M-x eyt-get-path
-This function will help you to positioning yourself while surfing in a yaml file.
+This function will help you to position yourself while surfing in a yaml file.
 
 The message you will get is like:
 ~spec => template => spec => volumes[18] => emptyDir => medium~
