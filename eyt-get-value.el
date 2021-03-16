@@ -23,10 +23,9 @@
                (concat (match-string 1 s) "values.yaml"))))))
 
 (defun extract-value-path ()
-  (let* ((line (fetch-current-line))
-         (value (extract-yaml-value line)))
-    (when (string-match "^\s*\t*{{\\(.*\\)}}" value)
-      (strip-string (replace-regexp-in-string "quote" "" (replace-regexp-in-string "\s*\t*.Values\\." "" (match-string 1 value)))))))
+  (let ((line (fetch-current-line)))
+    (when (string-match "\\(.Values[.a-z0-9]*\\)" line)
+      (strip-string (replace-regexp-in-string "\s*\t*.Values\\." "" (match-string 1 line))))))
 
 (defun read-value-from-yaml (fpath vpath)
   (with-temp-buffer
@@ -40,7 +39,9 @@
       (while (and (< (point) (point-max)) (not exitflag))
         (setq line (fetch-current-line))
         (setq current-level (fetch-yaml-indentation-level line))
-        (cond ((and (= current-level target-level) (string-match (car vpath) (extract-yaml-key line)))
+        (cond ((and (= current-level target-level)
+                    (string-match (car vpath) (extract-yaml-key line))
+                    (not (string-match "\s*#" (extract-yaml-key line))))
                (cond ((eq (cdr vpath) '())
                       (setq result (strip-string (extract-yaml-value line)))
                       (setq exitflag t))
@@ -52,4 +53,6 @@
 
 (defun eyt-get-value ()
   (interactive)
-  (message (read-value-from-yaml (extract-values-file) (extract-value-path))))
+  (let ((result (read-value-from-yaml (extract-values-file) (extract-value-path))))
+    (message result)
+    (kill-new result)))
