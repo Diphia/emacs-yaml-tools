@@ -30,11 +30,18 @@
   (replace-regexp-in-string "\s*\t*$" "" (replace-regexp-in-string "^\s\t*" "" s)))
 
 (defun extract-yaml-value (s)
-  (car (cdr (split-string s ":"))))
+  (let ((current-level (fetch-yaml-indentation-level s)))
+    (if (not (string-equal "" (car (cdr (split-string s ":"))))) (car (cdr (split-string s ":")))
+          (progn
+           (beginning-of-line 2)
+           (let* ((new-line (fetch-current-line))
+                  (new-level (fetch-yaml-indentation-level new-line)))
+             (if (= new-level (+ current-level 4))
+                 (strip-string new-line) ""))))))
 
 (defun yaml-path-to-list (path)
   (split-string path "\\."))
 
-(load-file "eyt-get-path.el")
-(load-file "eyt-get-value.el")
-(load-file "eyt-convert-to-ut.el")
+(load! "eyt-get-path.el")
+(load! "eyt-get-value.el")
+(load! "eyt-convert-to-ut.el")
