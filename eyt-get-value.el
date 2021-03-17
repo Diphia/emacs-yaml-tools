@@ -53,6 +53,7 @@
 
 (defun eyt-get-value ()
   (interactive)
-  (let ((result (read-value-from-yaml (extract-values-file) (extract-value-path))))
+  (let ((result (read-value-from-yaml (extract-values-file) (extract-value-path)))
+        (line (fetch-current-line)))
     (message result)
-    (kill-new result)))
+    (kill-new (replace-regexp-in-string "{{.*}}" result line))))

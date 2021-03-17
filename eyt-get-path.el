@@ -2,11 +2,11 @@
 
 (defun form-path-with-arrow (result)
   (concat (mapconcat 'identity result " => ")
-          (concat " => " (extract-yaml-key (format-yaml-line (fetch-current-line))))))
+          " => " (extract-yaml-key (format-yaml-line (fetch-current-line)))))
 
 (defun form-path-with-dot (result)
   (concat (mapconcat 'identity result ".")
-          (concat "." (extract-yaml-key (format-yaml-line (fetch-current-line))))))
+          "." (extract-yaml-key (format-yaml-line (fetch-current-line)))))
 
 (defun fetch-yaml-path ()
   (save-excursion
